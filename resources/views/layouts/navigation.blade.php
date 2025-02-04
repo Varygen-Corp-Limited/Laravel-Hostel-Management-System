@@ -6,28 +6,62 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}"
-                        class="font-serif text-2xl font-bold text-luxury-800 dark:text-luxury-200">
-                        {{ config('app.name') }}
+                    <a href="{{ auth()->user()->is_staff ? route('staff.dashboard') : route('guest.dashboard') }}"
+                        class="flex items-center space-x-2">
+                        <div
+                            class="w-10 h-10 rounded-full bg-luxury-800 dark:bg-luxury-700 flex items-center justify-center">
+                            <span class="font-serif text-xl font-bold text-white">
+                                {{ substr(config('app.name'), 0, 1) }}
+                            </span>
+                        </div>
+                        <span class="font-serif text-xl font-bold text-luxury-800 dark:text-luxury-200">
+                            {{ config('app.name') }}
+                        </span>
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="font-medium transition-colors">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('bookings.index')" :active="request()->routeIs('bookings.*')" class="font-medium transition-colors">
-                        {{ __('Bookings') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('guests.index')" :active="request()->routeIs('guests.*')" class="font-medium transition-colors">
-                        {{ __('Guests') }}
-                    </x-nav-link>
+                    @if (auth()->user()->is_staff)
+                        <x-nav-link :href="route('staff.dashboard')" :active="request()->routeIs('staff.dashboard')">
+                            {{ __('Dashboard') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('rooms.index')" :active="request()->routeIs('rooms.*')">
+                            {{ __('Rooms') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('bookings.index')" :active="request()->routeIs('bookings.*')">
+                            {{ __('Bookings') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('guests.index')" :active="request()->routeIs('guests.*')">
+                            {{ __('Guests') }}
+                        </x-nav-link>
+                    @else
+                        <x-nav-link :href="route('guest.dashboard')" :active="request()->routeIs('guest.dashboard')">
+                            {{ __('Dashboard') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('guest.bookings')" :active="request()->routeIs('guest.bookings')">
+                            {{ __('My Bookings') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
             <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ml-6">
+            <div class="hidden sm:flex sm:items-center sm:ml-6 space-x-4">
+                <!-- Dark mode toggle -->
+                <button type="button" data-dark-toggle
+                    class="p-2 text-luxury-800 dark:text-luxury-200 hover:bg-luxury-100 dark:hover:bg-luxury-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-luxury-500 dark:focus:ring-luxury-400">
+                    <span class="sr-only">Toggle dark mode</span>
+                    <svg class="w-5 h-5 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                    <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707" />
+                    </svg>
+                </button>
+
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
@@ -82,9 +116,27 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
+            @if (auth()->user()->is_staff)
+                <x-responsive-nav-link :href="route('staff.dashboard')" :active="request()->routeIs('staff.dashboard')">
+                    {{ __('Dashboard') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('rooms.index')" :active="request()->routeIs('rooms.*')">
+                    {{ __('Rooms') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('bookings.index')" :active="request()->routeIs('bookings.*')">
+                    {{ __('Bookings') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('guests.index')" :active="request()->routeIs('guests.*')">
+                    {{ __('Guests') }}
+                </x-responsive-nav-link>
+            @else
+                <x-responsive-nav-link :href="route('guest.dashboard')" :active="request()->routeIs('guest.dashboard')">
+                    {{ __('Dashboard') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('guest.bookings')" :active="request()->routeIs('guest.bookings')">
+                    {{ __('My Bookings') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->

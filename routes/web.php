@@ -5,10 +5,12 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\GuestBookingController;
 use App\Models\Room;
 use App\Models\Guest;
 use Illuminate\Support\Facades\Route;
 
+// Public routes
 Route::get('/', function () {
     $stats = [
         'roomCount' => Room::count(),
@@ -41,24 +43,38 @@ Route::get('/', function () {
     return view('welcome', compact('stats', 'availableRooms', 'roomTypes'));
 });
 
+// Guest Booking Routes
+Route::get('/book-now', [GuestBookingController::class, 'create'])->name('guest.booking.create');
+Route::post('/book-now', [GuestBookingController::class, 'store'])->name('guest.booking.store');
+
+// Guest Routes (authenticated users)
 Route::middleware(['auth', 'verified'])->group(function () {
-    // Dashboard
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    // Guest Dashboard
+    Route::get('/dashboard', function () {
+        if (auth()->user()->is_staff) {
+            return redirect()->route('staff.dashboard');
+        }
+        return view('guest.dashboard');
+    })->name('guest.dashboard');
 
-    // Rooms
-    Route::resource('rooms', RoomController::class);
+    Route::get('/my-bookings', [GuestBookingController::class, 'index'])->name('guest.bookings');
+    Route::get('/book-now', [GuestBookingController::class, 'create'])->name('guest.booking.create');
+    Route::post('/book-now', [GuestBookingController::class, 'store'])->name('guest.booking.store');
 
-    // Guests
-    Route::resource('guests', GuestController::class);
-
-    // Bookings
-    Route::resource('bookings', BookingController::class);
-    Route::patch('/bookings/{booking}/checkout', [BookingController::class, 'checkout'])->name('bookings.checkout');
-
-    // Profile
+    // Profile routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+// Staff Routes
+Route::middleware(['auth', 'verified', 'staff'])->group(function () {
+    Route::get('/staff/dashboard', [DashboardController::class, 'index'])->name('staff.dashboard');
+
+    Route::resource('rooms', RoomController::class);
+    Route::resource('guests', GuestController::class);
+    Route::resource('bookings', BookingController::class);
+    Route::patch('/bookings/{booking}/checkout', [BookingController::class, 'checkout'])->name('bookings.checkout');
 });
 
 require __DIR__ . '/auth.php';

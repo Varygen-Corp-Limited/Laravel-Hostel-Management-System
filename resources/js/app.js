@@ -8,10 +8,15 @@ Alpine.start();
 
 // Dark mode functionality
 document.addEventListener("DOMContentLoaded", () => {
-    // Set dark mode as default if no preference is stored
+    // Always set dark mode as default
     if (!localStorage.getItem("theme")) {
         document.documentElement.classList.add("dark");
         localStorage.setItem("theme", "dark");
+    }
+
+    // Ensure dark mode is applied if it's set in localStorage
+    if (localStorage.theme === "dark" || !("theme" in localStorage)) {
+        document.documentElement.classList.add("dark");
     }
 
     const darkModeToggle = document.querySelector("[data-dark-toggle]");

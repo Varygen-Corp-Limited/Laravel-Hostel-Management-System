@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use App\Models\Room;
 use App\Models\Booking;
 use App\Models\Guest;
-use App\Models\Room;
 use Carbon\Carbon;
 
 class DashboardController extends Controller
@@ -35,10 +36,11 @@ class DashboardController extends Controller
         $occupancyRate = $totalRooms > 0 ? round(($occupiedRooms / $totalRooms) * 100) : 0;
 
         $stats = [
-            'activeBookings' => Booking::where('status', 'active')->count(),
+            'totalRooms' => $totalRooms,
             'availableRooms' => Room::where('status', 'available')->count(),
-            'occupiedRooms' => Room::where('status', 'occupied')->count(),
+            'occupiedRooms' => $occupiedRooms,
             'maintenanceRooms' => Room::where('status', 'maintenance')->count(),
+            'activeBookings' => Booking::where('status', 'active')->count(),
             'totalGuests' => Guest::count(),
             'monthlyRevenue' => $currentMonthRevenue,
             'revenueGrowth' => $revenueGrowth,
@@ -48,13 +50,14 @@ class DashboardController extends Controller
             'checkinsToday' => Booking::where('check_in_date', $today)->where('status', 'active')->count(),
         ];
 
-        $recentBookings = Booking::with(['guest', 'room'])
+        $recentBookings = Booking::with(['room', 'guest'])
             ->latest()
             ->take(5)
             ->get()
             ->map(function ($booking) {
                 $booking->status_color = match ($booking->status) {
                     'active' => 'green',
+                    'pending' => 'yellow',
                     'completed' => 'gray',
                     'cancelled' => 'red',
                     default => 'gray'

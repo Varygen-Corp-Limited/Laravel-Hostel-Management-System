@@ -37,29 +37,21 @@
 
         .gradient-overlay {
             background: linear-gradient(135deg,
-                    rgba(183, 147, 111, 0.12) 0%,
-                    rgba(140, 109, 79, 0.08) 50%,
-                    rgba(54, 34, 16, 0.04) 100%);
+                    rgba(164, 126, 98, 0.1) 0%,
+                    rgba(112, 76, 46, 0.05) 50%,
+                    rgba(86, 51, 20, 0.02) 100%);
         }
 
         .dark .gradient-overlay {
             background: linear-gradient(135deg,
-                    rgba(183, 147, 111, 0.18) 0%,
-                    rgba(140, 109, 79, 0.12) 50%,
-                    rgba(54, 34, 16, 0.08) 100%);
+                    rgba(164, 126, 98, 0.15) 0%,
+                    rgba(112, 76, 46, 0.1) 50%,
+                    rgba(86, 51, 20, 0.05) 100%);
         }
 
         .bg-blur {
             backdrop-filter: blur(20px) saturate(180%);
             -webkit-backdrop-filter: blur(20px) saturate(180%);
-        }
-
-        .gold-border {
-            border: 1px solid rgba(231, 195, 111, 0.2);
-        }
-
-        .dark .gold-border {
-            border: 1px solid rgba(231, 195, 111, 0.1);
         }
     </style>
 </head>
@@ -74,13 +66,13 @@
 
             <!-- Decorative Elements -->
             <div
-                class="absolute -left-48 -top-48 w-96 h-96 rounded-full bg-gradient-to-br from-luxury-200/40 via-gold-300/30 to-luxury-300/40 dark:from-luxury-800/20 dark:via-gold-700/15 dark:to-luxury-900/20 blur-3xl">
+                class="absolute -left-48 -top-48 w-96 h-96 rounded-full bg-gradient-to-br from-luxury-200/40 to-luxury-300/40 dark:from-luxury-800/20 dark:to-luxury-900/20 blur-3xl">
             </div>
             <div
-                class="absolute -right-48 -bottom-48 w-96 h-96 rounded-full bg-gradient-to-br from-gold-200/30 via-luxury-300/25 to-gold-300/30 dark:from-gold-800/20 dark:via-luxury-700/15 dark:to-gold-900/20 blur-3xl">
+                class="absolute -right-48 -bottom-48 w-96 h-96 rounded-full bg-gradient-to-br from-accent-200/30 to-accent-300/30 dark:from-accent-800/20 dark:to-accent-900/20 blur-3xl">
             </div>
             <div
-                class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-gradient-to-br from-white/10 via-gold-100/5 to-luxury-100/10 dark:from-black/10 dark:via-gold-900/5 dark:to-luxury-900/10 backdrop-blur-3xl">
+                class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-gradient-to-br from-white/10 to-luxury-100/10 dark:from-black/10 dark:to-luxury-900/10 backdrop-blur-3xl">
             </div>
         </div>
 
@@ -88,27 +80,32 @@
         <div class="relative z-10">
             <!-- Navigation -->
             <nav
-                class="fixed w-full z-50 bg-white/90 dark:bg-gray-900/90 border-b border-luxury-200/50 dark:border-luxury-800/50 shadow-luxury bg-blur">
-                @include('layouts.navigation')
+                class="fixed w-full z-50 bg-white/90 dark:bg-gray-900/90 border-b border-luxury-200/50 dark:border-luxury-800/50 shadow-sm bg-blur">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex justify-between h-16">
+                        <div class="flex items-center">
+                            <a href="/" class="flex items-center space-x-2">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-luxury-800 dark:bg-luxury-700 flex items-center justify-center">
+                                    <span class="font-serif text-xl font-bold text-white">
+                                        {{ substr(config('app.name'), 0, 1) }}
+                                    </span>
+                                </div>
+                                <span class="font-serif text-xl font-bold text-luxury-800 dark:text-luxury-200">
+                                    {{ config('app.name') }}
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </nav>
 
-            <!-- Page Heading -->
-            @if (isset($header))
-                <header class="pt-20 bg-white/95 dark:bg-gray-800/95 shadow-luxury-lg gold-border bg-blur">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endif
-
             <!-- Page Content -->
-            <main class="@if (!isset($header)) pt-20 @endif">
+            <main class="pt-20">
                 {{ $slot }}
             </main>
         </div>
     </div>
-
-    @stack('scripts')
 </body>
 
 </html>

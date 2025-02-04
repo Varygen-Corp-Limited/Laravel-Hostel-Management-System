@@ -3,33 +3,38 @@ const defaultTheme = require("tailwindcss/defaultTheme");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+    darkMode: "class",
     content: [
         "./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php",
         "./storage/framework/views/*.php",
         "./resources/views/**/*.blade.php",
     ],
-
-    darkMode: "class",
-
     theme: {
         extend: {
-            fontFamily: {
-                sans: ["Montserrat", "sans-serif"],
-                serif: ["Playfair Display", "serif"],
-            },
             colors: {
                 luxury: {
-                    50: "#F9F7F4",
-                    100: "#F3EEE8",
-                    200: "#E7DFD5",
-                    300: "#D4C3B3",
-                    400: "#C2A791",
-                    500: "#A47E62",
-                    600: "#8B654A",
-                    700: "#725139",
-                    800: "#5A3F2D",
-                    900: "#422D21",
-                    950: "#2A1D15",
+                    50: "#F9F6F3",
+                    100: "#F3EDE7",
+                    200: "#E7DBCF",
+                    300: "#DBC9B7",
+                    400: "#CFB79F",
+                    500: "#C3A587",
+                    600: "#B7936F",
+                    700: "#8C6D4F",
+                    800: "#61472F",
+                    900: "#362210",
+                },
+                gold: {
+                    50: "#FDFAF3",
+                    100: "#FBF5E7",
+                    200: "#F7EBCF",
+                    300: "#F3E1B7",
+                    400: "#EFD79F",
+                    500: "#EBCD87",
+                    600: "#E7C36F",
+                    700: "#BC9441",
+                    800: "#8C6A23",
+                    900: "#5C4005",
                 },
                 accent: {
                     50: "#F5F3FF",
@@ -45,12 +50,15 @@ module.exports = {
                     950: "#2E1065",
                 },
             },
+            fontFamily: {
+                sans: ["Montserrat", "sans-serif"],
+                serif: ["Playfair Display", "serif"],
+            },
             boxShadow: {
-                luxury: "0 4px 20px rgba(164,126,98,0.1)",
-                "luxury-lg": "0 10px 30px rgba(164,126,98,0.2)",
+                luxury: "0 4px 20px rgba(140, 109, 79, 0.1)",
+                "luxury-lg": "0 10px 30px rgba(140, 109, 79, 0.2)",
             },
         },
     },
-
     plugins: [require("@tailwindcss/forms")],
 };

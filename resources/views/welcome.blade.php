@@ -154,7 +154,7 @@
                                         </a>
 
                                         @if (Route::has('register'))
-                                            <a href="{{ route('register') }}"
+                                            <a href="{{ route('guest.booking.create') }}"
                                                 class="inline-flex items-center px-4 py-2 bg-luxury-800 dark:bg-luxury-700 text-white font-medium rounded-lg hover:bg-luxury-900 dark:hover:bg-luxury-600 transition-colors shadow-sm">
                                                 <span>Book Now</span>
                                                 <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor"

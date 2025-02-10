@@ -41,7 +41,7 @@
                                         class="p-4 {{ $loop->first ? 'bg-white/50' : 'bg-white/30' }} dark:bg-gray-800/50 rounded-lg">
                                         <div class="flex justify-between items-start mb-2">
                                             <h4 class="font-medium text-luxury-800 dark:text-luxury-200">
-                                                {{ $guestBooking->guest->name }}
+                                                {{ $guestBooking?->guest?->name || 'Guest' }}
                                                 @if ($loop->first)
                                                     <span
                                                         class="text-xs text-luxury-600 dark:text-luxury-400 ml-2">Primary
@@ -51,10 +51,10 @@
                                         </div>
                                         <div class="space-y-2">
                                             <p class="text-sm text-luxury-600/70 dark:text-luxury-400/70">
-                                                ID: {{ $guestBooking->guest->id_number }}
+                                                ID: {{ $guestBooking?->guest?->id_number }}
                                             </p>
                                             <p class="text-sm text-luxury-600/70 dark:text-luxury-400/70">
-                                                Phone: {{ $guestBooking->guest->phone }}
+                                                Phone: {{ $guestBooking?->guest?->phone }}
                                             </p>
                                         </div>
                                     </div>

@@ -51,10 +51,10 @@
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="text-sm font-medium text-luxury-900 dark:text-luxury-100">
-                                                {{ $booking->guest->name }}
+                                                {{ $booking?->guest?->name || 'Guest' }}
                                             </div>
                                             <div class="text-sm text-luxury-500 dark:text-luxury-400">
-                                                {{ $booking->guest->id_number }}
+                                                {{ $booking?->guest?->id_number }}
                                             </div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">

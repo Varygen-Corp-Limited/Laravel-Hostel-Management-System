@@ -76,7 +76,7 @@
                                     <div>
                                         <label class="text-sm text-luxury-600/70 dark:text-luxury-400/70">Guest</label>
                                         <p class="text-lg font-medium text-luxury-800 dark:text-luxury-200">
-                                            {{ $booking->guest->name }}
+                                            {{ $booking?->guest?->name || 'Guest' }}
                                         </p>
                                     </div>
                                     <div>

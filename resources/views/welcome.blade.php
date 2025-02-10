@@ -210,14 +210,14 @@
 
                             <div class="flex flex-wrap gap-6">
                                 @auth
-                                    <a href="{{ route('dashboard') }}"
+                                    {{-- <a href="{{ route('dashboard') }}"
                                         class="inline-flex items-center px-8 py-3 bg-luxury-800 dark:bg-luxury-700 text-white font-semibold rounded-lg hover:bg-luxury-900 dark:hover:bg-luxury-600 transition-colors shadow-sm">
                                         <span>View Dashboard</span>
                                         <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M13 7l5 5m0 0l-5 5m5-5H6" />
                                         </svg>
-                                    </a>
+                                    </a> --}}
                                 @else
                                     <a href="{{ route('register') }}"
                                         class="inline-flex items-center px-8 py-3 bg-luxury-800 dark:bg-luxury-700 text-white font-semibold rounded-lg hover:bg-luxury-900 dark:hover:bg-luxury-600 transition-colors shadow-sm">

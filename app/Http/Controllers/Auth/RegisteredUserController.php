@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Guest;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -42,10 +43,20 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        // Create a guest record
+        $guest = Guest::create([
+            'name' => $request->name,
+            'phone' => $request->phone ?? '',
+            'id_number' => $request->id_number ?? '',
+        ]);
+
+        $guest->save();
+
+
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect()->route('dashboard');
+        return redirect()->route('guest.dashboard');
     }
 }

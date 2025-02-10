@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Room;
 use App\Models\Booking;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class GuestBookingController extends Controller
 {
     public function index()
     {
-        $bookings = auth()->user()->bookings()->latest()->get();
+        $bookings = Auth::user()->bookings()->latest()->get();
         return view('guest.bookings.index', compact('bookings'));
     }
 
@@ -43,15 +44,20 @@ class GuestBookingController extends Controller
         $checkOut = \Carbon\Carbon::parse($validated['check_out_date']);
         $nights = $checkIn->diffInDays($checkOut);
 
+
+        $user_id = Auth::id();
+
         // Create booking
         $booking = Booking::create([
             'room_id' => $room->id,
-            'guest_id' => auth()->id(),
+            'guest_id' => $user_id,
             'check_in_date' => $validated['check_in_date'],
             'check_out_date' => $validated['check_out_date'],
             'total_amount' => $room->price_per_night * $nights,
-            'status' => 'pending'
+            'status' => 'active'
         ]);
+
+        $booking->save();
 
         return redirect()->route('guest.bookings')
             ->with('success', 'Booking created successfully! We will confirm your booking shortly.');

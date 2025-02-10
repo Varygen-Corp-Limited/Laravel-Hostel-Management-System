@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('name', 100);
             $table->string('phone', 20);
-            $table->string('id_number', 50)->unique();
+            $table->string('id_number', 50);
             $table->timestamps();
         });
     }
